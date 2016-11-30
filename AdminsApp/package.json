@@ -1,5 +1,16 @@
 {
-  "name"    : "Admin_App",
-  "version" : "0.1.0",
-  "main"    : "main.js"
+  "name": "Admin_App",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "@angular/common": "^2.1.2",
+    "@angular/compiler": "^2.1.2",
+    "@angular/platform-browser": "^2.1.2",
+    "@angular/platform-browser-dynamic": "^2.1.2",
+    "@types/jasmine": "^2.5.37",
+    "angularfire2": "^2.0.0-beta.6",
+    "firebase": "^3.6.0",
+    "rxjs": "^5.0.0-beta.12",
+    "zone.js": "^0.6.26"
+  }
 }

@@ -46,6 +46,23 @@
       }
     </style>
 
+    <!-- Firbase CDN includes -->
+	<!-- Firebase -->
+	<!-- AngularFire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyAnrnapqhNK4le5KIYHvbbRqU8lUmb7XhY",
+	    authDomain: "hu-donation.firebaseapp.com",
+	    databaseURL: "https://hu-donation.firebaseio.com",
+	    storageBucket: "hu-donation.appspot.com",
+	    messagingSenderId: "265947901495"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+	<!--  -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/routes.js"></script>
