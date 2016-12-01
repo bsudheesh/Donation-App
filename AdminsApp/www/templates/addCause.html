@@ -1,10 +1,4 @@
 <ion-view title="Add Cause" hide-nav-bar="true" id="page4" style="background-color:#003A63;">
-  <ion-nav-buttons side="left">
-    <button class="button button-icon icon No Icon"></button>
-  </ion-nav-buttons>
-  <ion-nav-buttons side="right">
-    <button class="button button-icon icon No Icon"></button>
-  </ion-nav-buttons>
   <ion-content padding="true" class="manual-ios-statusbar-padding">
     <form id="addCause-form2" class="list">
       <h3 id="addCause-heading2" style="color:#FFA42E;font-weight:600;text-align:center;">Let's Add Another Project!</h3>
@@ -14,17 +8,17 @@
         </p>
       </div>
       <label class="item item-input" id="addCause-input3">
-        <input type="text" placeholder="">
+        <input type="text" placeholder="" ng-model="name">
       </label>
       <div class="spacer" style="width: 300px; height: 7px;"></div>
       <div id="addCause-markdown4" class="show-list-numbers-and-dots"></div>
       <div id="addCause-markdown5" class="show-list-numbers-and-dots">
         <p style="color:#000000;">
-          <strong>Short Description of Cause: (10-15 words)</strong>
+          <strong>Short Description of Cause: (5-10 words)</strong>
         </p>
       </div>
       <label class="item item-input" id="addCause-input4">
-        <input type="text" placeholder="">
+        <input type="text" placeholder="" ng-model="short">
       </label>
       <div class="spacer" style="width: 300px; height: 8px;"></div>
       <div id="addCause-markdown6" class="show-list-numbers-and-dots">
@@ -33,7 +27,7 @@
         </p>
       </div>
       <label class="item item-input" id="addCause-input5">
-        <input type="text" placeholder="">
+        <input type="text" placeholder="" ng-model="detail">
       </label>
       <button id="addCause-button3" style="font-weight:500;" class="button button-positive  button-block icon ion-image">Upload Image</button>
       <div id="addCause-markdown7" class="show-list-numbers-and-dots">
@@ -42,11 +36,14 @@
         </p>
       </div>
       <ion-item class="range range-positive" id="addCause-range1">
-        <input type="range" value="50" min="0" max="100" step="1">
+        <i class = "icon ion-chevron-left"></i>
+          <p><strong>{{funding_goal}}</strong></p>
+        <input type="range" value="50" min="50" max="1000" step="25" ng-model="funding_goal" ng-change="change_funding(funding_goal)">
+        <i class = "icon ion-chevron-right"></i>
       </ion-item>
-    </form>
     <div style="margin-right:-20px;">
-      <button id="addCause-button4" style="left:-10px;font-weight:500;" class="button button-dark button-large button-full icon ion-android-add-circle">Add Project</button>
+      <button id="addCause-button4" style="left:-10px;font-weight:500;" class="button button-dark button-large button-full icon ion-android-add-circle" ng-click="addCause(name, short, detail)">Add Project</button>
     </div>
+    </form>
   </ion-content>
 </ion-view>

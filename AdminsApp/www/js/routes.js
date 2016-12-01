@@ -29,13 +29,13 @@ angular.module('app.routes', [])
   })
 
   .state('editCause', {
-    url: '/edit_cause',
+    url: '/edit_cause/:id',
     templateUrl: 'templates/editCause.html',
     controller: 'editCauseCtrl'
   })
 
   .state('feedDetail', {
-    url: '/detail',
+    url: '/detail/:id',
     templateUrl: 'templates/feedDetail.html',
     controller: 'feedDetailCtrl'
   })

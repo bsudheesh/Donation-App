@@ -1,26 +1,71 @@
-// Ionic Starter App
+// Kinvey Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services',])
+angular.module('starter', [
+  'kinvey',
+  'ionic',
+  'starter.controllers'
+])
 
-.config(function($ionicConfigProvider, $sceDelegateProvider){
-  
+.run(function($ionicPlatform, $kinvey, $rootScope, $state, $ionicModal, $timeout) {
+  // Show a login view if there is not an active user but
+  // the toState requires a user to be active.
+  var stateChangeStartListener = $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    var activeUser = $kinvey.User.getActiveUser();
+    var activeUserRequired = toState.data ? toState.data.activeUserRequired : false;
 
-  $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
+    if (activeUserRequired === true && !activeUser) {
+      // Create a new $scope
+      var $scope = $rootScope.$new();
+      $scope.loginData = {};
+      $scope.errorMessage = null;
 
-})
+      // Create the login modal and show it
+      $ionicModal.fromTemplateUrl('templates/login.html', {
+        scope: $scope,
+        animation: 'slide-in-up',
+        backdropClickToClose: false,
+        hardwareBackButtonClose: false
+      }).then(function(modal) {
+        modal.show();
+        $scope.modal = modal;
+      });
 
-.run(function($ionicPlatform) {
+      // Hide the modal and destroy the $scope
+      $scope.closeLogin = function() {
+        $scope.modal.hide().then(function() {
+          $scope.$destroy();
+        });
+      };
+
+      // Perform the login action when the user submits the login form
+      $scope.doLogin = function() {
+        $scope.errorMessage = null;
+
+        // Login a user and close the modal
+        $kinvey.User.login($scope.loginData).then(function() {
+          $state.go(toState.name, toParams, { reload: true });
+          $scope.closeLogin();
+        }).catch(function(error) {
+          $scope.errorMessage = 'Invalid username and/or password. Please try again.';
+          $scope.$digest();
+        });
+      };
+
+      // Remove the modal when the $scope is destroyed
+      $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+      });
+    }
+  });
+
   $ionicPlatform.ready(function() {
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+    if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
+
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
@@ -29,25 +74,64 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
   });
 })
 
-.directive('disableSideMenuDrag', ['$ionicSideMenuDelegate', '$rootScope', function($ionicSideMenuDelegate, $rootScope) {
-    return {
-        restrict: "A",  
-        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+.config(function($kinveyProvider, $stateProvider, $urlRouterProvider) {
+  $kinveyProvider.init({
+    appKey: 'kid_rJfnFphMe',
+    appSecret: '88a406df06794545a3b030646c2234b3'
+  });
 
-            function stopDrag(){
-              $ionicSideMenuDelegate.canDragContent(false);
-            }
+  $stateProvider
+    .state('logout', {
+      url: '/logout',
+      controller: function($scope, $state, $kinvey) {
+        $scope.$on('$ionicView.enter', function() {
+          var user = $kinvey.User.getActiveUser();
 
-            function allowDrag(){
-              $ionicSideMenuDelegate.canDragContent(true);
-            }
+          if (user) {
+            return user.logout().then(function() {
+              $state.go('app.books');
+            });
+          }
 
-            $rootScope.$on('$ionicSlides.slideChangeEnd', allowDrag);
-            $element.on('touchstart', stopDrag);
-            $element.on('touchend', allowDrag);
-            $element.on('mousedown', stopDrag);
-            $element.on('mouseup', allowDrag);
+          $state.go('app.books');
+        });
+      }
+    })
+    .state('app', {
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl',
+      data: {
+        activeUserRequired: true
+      }
+    })
+    .state('addCause', {
+    url: '/add_cause',
+    templateUrl: 'templates/addCause.html',
+    controller: 'addCauseCtrl'
+  })
+    .state('feedDetail', {
+    url: '/detail/:id',
+    templateUrl: 'templates/feedDetail.html',
+    controller: 'feedDetailCtrl'
+  })
+      .state('edit_cause', {
+    url: '/edit_cause/:id',
+    templateUrl: 'templates/editCause.html',
+    controller: 'editCauseCtrl'
+  })
+    .state('app.books', {
+      url: '/books',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/books.html',
+          controller: 'BooksCtrl'
+        }
+      }
+    });
 
-        }]
-    };
-}])
+
+  // If none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/app/books');
+});

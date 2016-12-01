@@ -1,7 +1,7 @@
 {
-  "name": "adminsapp",
-  "version": "1.1.1",
-  "description": "AdminsApp: An Ionic project",
+  "name": "kinvey-starter",
+  "version": "1.2.0",
+  "description": "An Ionic app that makes it easy to get started using the Kinvey platform.",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
@@ -22,5 +22,11 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ],
+  "scripts": {
+    "postinstall": "bower install",
+    "start": "ionic serve"
+  }
 }
