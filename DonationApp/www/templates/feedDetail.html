@@ -1,0 +1,26 @@
+<ion-view view-title="Cause Feed" title="Cause Feed" hide-nav-bar="true" id="page1" style="background-color:#003A63;">
+  <ion-content padding="true" class="manual-ios-statusbar-padding" data-ng-init="init()">
+    <ion-list id="causeFeed-list2">
+      <div class="item item-body" id="causeFeed-list-item-container1">
+        <div id="causeFeed-markdown2" style="text-align:center;" class="show-list-numbers-and-dots">
+          <p style="margin-top:0px;color:#33628F;font-size:20px; text-align: left">
+            <strong>{{cause.name}}</strong>
+          </p>
+        </div>
+        <br/>
+        <br/>
+        <img src="http://www.clker.com/cliparts/q/j/7/1/k/3/green-wifi-link-md.png">
+        <h2balanced>{{cause.short}}
+        <p>&nbsp;</p>
+          <p style="white-space:normal;">{{cause.detail}}</p>
+          <i class="icon ion-android-arrow-dropup">{{cause.upvote - cause.downvote}}</i>
+        </h2balanced>
+        <progress id="progressbar" max={{cause.goals}} value="{{cause.raised}}"> </progress>
+    	<div id="progressbarlabel">{{percent_raised | number:0}}%</div>
+    	<p>&nbsp;</p>
+    	<p>Goal: ${{cause.goals}}</p>
+    	<p>Raised: ${{cause.raised}}</p>
+    	<p>Remaining: ${{cause.remaining}}</p>
+    </ion-list>
+  </ion-content>
+</ion-view>

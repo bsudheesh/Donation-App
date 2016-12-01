@@ -1,0 +1,28 @@
+<ion-view view-title="Cause Feed" title="Cause Feed" hide-nav-bar="true" id="page1" style="background-color:#003A63;">
+  <ion-content padding="true" class="manual-ios-statusbar-padding">
+    <ion-list id="causeFeed-list2">
+      <div class="item item-body" id="causeFeed-list-item-container1">
+        
+        <div id="causeFeed-markdown2" style="text-align:center;" class="show-list-numbers-and-dots">
+          <p style="margin-top:0px;color:#33628F;font-size:20px;">
+            <strong>Cause Feed</strong>
+          </p>
+        </div>
+      <ion-item class="item-thumbnail-left item-icon-right balanced" id="causeFeed-list-item3" ng-repeat="data in books" ng-href="#/detail/{{data._id}}">
+        <img src="http://www.clker.com/cliparts/q/j/7/1/k/3/green-wifi-link-md.png">
+        <h2balanced>{{data.name}}
+          <p style="white-space:normal;">{{data.short}}</p>
+          <button type="submit" class="button button-block button-positive" ui-sref="donate">Donate</button>
+                      
+
+      <!--<a ng-href="#/descriptions/{{ data.name}}"></a> -->         
+          <i class="icon ion-android-arrow-dropup">{{data.upvote-data.downvote}}</i>
+          <ion-option-button class="button-positive" ng-href="#/edit_cause/{{data._id}}">Up    Vote</ion-option-button>
+          <ion-option-button class="button-assertive" ng-click="removeCause(data._id)">Down Vote</ion-option-button>
+          
+        </h2balanced>
+      </ion-item>
+    </ion-list>
+    <button type="submit" color="secondary" class="button button-block button-positive" ui-sref="donate">Donate</button>
+  </ion-content>
+</ion-view>
