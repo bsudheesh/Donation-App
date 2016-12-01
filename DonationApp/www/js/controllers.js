@@ -99,6 +99,7 @@ $scope.addCause = function (name, short, detail) {
 })
 
 .controller('BooksCtrl', function($scope, $kinvey, $ionicPopup) {
+  $scope.cause = {};
   var store = $kinvey.DataStore.collection('Causes');
   store.useDeltaFetch = false;
 
@@ -129,6 +130,12 @@ $scope.addCause = function (name, short, detail) {
   }
 })
   }
+
+  $scope.upvote = function(id) {
+    $scope.cause.upvote += 1;
+}
+
+  
   $scope.$on('$ionicView.enter', function() {
     $scope.books = [];
     $scope.refresh();
